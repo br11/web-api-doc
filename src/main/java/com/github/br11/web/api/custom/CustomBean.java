@@ -9,8 +9,24 @@ public class CustomBean implements Serializable {
 
 	private Long id;
 	private String name;
-	private Date adimission;
+	private Date admission;
 	private Double salary;
+
+	public CustomBean() {
+		this(null, null, null);
+	}
+
+	public CustomBean(String name, Date admission, Double salary) {
+		this(null, name, admission, salary);
+	}
+
+	public CustomBean(Long id, String name, Date adimission, Double salary) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.admission = adimission;
+		this.salary = salary;
+	}
 
 	public Long getId() {
 		return id;
@@ -30,12 +46,12 @@ public class CustomBean implements Serializable {
 		return this;
 	}
 
-	public Date getAdimission() {
-		return adimission;
+	public Date getAdmission() {
+		return admission;
 	}
 
-	public CustomBean setAdimission(Date adimission) {
-		this.adimission = adimission;
+	public CustomBean setAdmission(Date adimission) {
+		this.admission = adimission;
 		return this;
 	}
 

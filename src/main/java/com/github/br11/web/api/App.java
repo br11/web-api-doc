@@ -17,10 +17,10 @@ public class App {
 		SpringApplication app = new SpringApplication(App.class);
 
 		Properties properties = new Properties();
-		properties.setProperty("spring.datasource.username",
-				Files.lines(Paths.get("/etc/secret/dbuser")).findFirst().get());
-		properties.setProperty("spring.datasource.password",
-				Files.lines(Paths.get("/etc/secret/dbpass")).findFirst().get());
+//		properties.setProperty("spring.datasource.username",
+//				Files.lines(Paths.get("/etc/secret/dbuser")).findFirst().get());
+//		properties.setProperty("spring.datasource.password",
+//				Files.lines(Paths.get("/etc/secret/dbpass")).findFirst().get());
 
 		app.setDefaultProperties(properties);
 		app.run(args);
