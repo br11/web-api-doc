@@ -3,19 +3,17 @@ package com.github.br11.web.api.custom;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -37,8 +35,11 @@ import com.github.br11.web.api.App;
 @WebAppConfiguration
 public class CustomControllerTest {
 
-	private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-			MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+	// private MediaType contentType = new
+	// MediaType(MediaType.APPLICATION_JSON.getType(),
+	// MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+
+	private MediaType contentType = MediaType.APPLICATION_JSON_UTF8;
 
 	private String userName = "bdussault";
 
@@ -51,7 +52,6 @@ public class CustomControllerTest {
 
 	@Autowired
 	void setConverters(HttpMessageConverter<?>[] converters) {
-
 		this.mappingJackson2HttpMessageConverter = Arrays.asList(converters).stream()
 				.filter(hmc -> hmc instanceof MappingJackson2HttpMessageConverter).findAny().orElse(null);
 
@@ -69,7 +69,7 @@ public class CustomControllerTest {
 				.content(this.json(new CustomBean("Doe, John", new Date(), 1234.56))) //
 				.contentType(contentType)) //
 				.andExpect(status().isOk()) //
-		// .andDo(print()) //
+				//.andDo(print()) //
 		;
 	}
 
@@ -78,11 +78,13 @@ public class CustomControllerTest {
 		mockMvc.perform(post("/api/custom/") //
 				.content(this.json(new CustomBean("Doe, John", new Date(), 1234.56))) //
 				.contentType(contentType)) //
-				.andExpect(status().isOk());
+				.andExpect(status().isOk()) //
+		;
 
 		mockMvc.perform(get("/api/custom/1")) //
 				.andExpect(status().isOk()) //
-				.andExpect(content().string(Mockito.contains("Doe, Johnn")));
+				.andDo(print()) //
+		;
 	}
 
 	protected String json(Object o) throws IOException {

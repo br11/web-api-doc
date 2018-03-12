@@ -3,6 +3,9 @@ package com.github.br11.web.api.custom;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomBean implements Serializable {
 
 	private static final long serialVersionUID = 5007294747405350870L;
